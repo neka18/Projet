@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+{% endblock stylesheets %}
+
+
+{% block body %}
+
+    <body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-5">
+            <a class="navbar-brand" href="/">Anime List</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><input type="search" id="site-search" name="q" placeholder="search"
+                                                aria-label="Search through site content"></li>
+                    {# <div class="dropdown"> #}
+                    <li class="nav-item" id="buttonmenu"><a class="nav-link active" aria-current="page"
+                                                            href="/">Liste</a></li>
+                    {# <div class="dropdown-child"> #}
+                    {# <a href="#">Shonen</a> #}
+                    {# <a href="#">Shojo</a> #}
+                    {# <a href="#">Seinen</a> #}
+                    {# <a href="#">Isekai</a> #}
+                    {# </div> #}
+                    {# </div> #}
+                    <li class="nav-item"><a class="nav-link" href="/library">Ma collection</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login">Se connecter</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Content-->
+    {% block content %}
+
+    {% endblock content %}
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container px-4 px-lg-5"><p class="m-0 text-center text-white">Copyright &copy; Anime List 2021</p>
+        </div>
+    </footer>
+    </body>
+{% endblock body %}
+
+
+{% block javascripts %}
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+{% endblock javascripts %}

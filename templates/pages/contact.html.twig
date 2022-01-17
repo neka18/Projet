@@ -1,0 +1,15 @@
+{% extends 'layouts/layout.html.twig' %}
+
+{% block content %}
+    <div class="formText">
+        <h7>Notre formulaire de contact:</h7>
+        <br>
+        <br>
+        <p>Il vous permettra de nous contacter pour nous signaler un problème survenu sur notre site ou bien si vous voulez votre votre anime préféré, vous pouvez nous proposer des animés que vous aimeriez voir apparaître sur notre site.</p>
+    </div>
+
+    <div>
+        {{ form(contactForm) }}
+    </div>
+
+{% endblock content %}

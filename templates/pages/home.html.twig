@@ -1,0 +1,51 @@
+{% extends 'layouts/layout.html.twig' %}
+
+{% block content %}
+    <div class="container px-4 px-lg-5">
+        <!-- Heading Row-->
+        <hr class="top-home">
+        {% if topanime %}
+            <h1 class="font-weight-light">Coup de coeur du mois!</h1>
+            <div class="row gx-4 gx-lg-5 align-items-center my-5">
+                <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0"
+                                           src="{{ asset("uploads/"~topanime.img) }}" alt="..."/></div>
+                <div class="col-lg-5">
+                    <h2>{{ topanime.name }}</h2>
+                    <p>{{ topanime.description }}</p>
+                    <a class="btn btn-primary" href="{{ url('anime', {'id': topanime.id}) }}">Plus d'info ici.</a>
+                </div>
+            </div>
+        {% else %}
+            <h1 class="font-weight-light">Noob</h1>
+        {% endif %}
+        <!-- Call to Action-->
+        <div class="card text-white bg-secondary my-5 py-4 text-center">
+            <div><p class="text-white m-0">Les nouveautés de la semaine !</p></div>
+        </div>
+        <!-- Content Row-->
+        <div class="row gx-4 gx-lg-5">
+            {% for anime in animes %}
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <img src="{{ asset("uploads/"~anime.img) }}" alt="" class="card-img">
+                            <h2 class="card-title">{{ anime.name }}</h2>
+                            <p></p><i class="far fa-star"></i>
+                            <i class="far fa-bookmark"></i>
+                            <p class="card-text">{{ anime.description }}</p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm"
+                                                    href="{{ url('anime', {'id': anime.id}) }}">Plus d'info ici.</a>
+                            <a class="btn btn-primary btn-sm" href="#">Ajouter à ma liste.</a>
+                            <a class="btn btn-primary btn-sm" href="#">Commenter.</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <h1 class="font-weight-light">Noob</h1>
+            {% endfor %}
+
+        </div>
+    </div>
+    {{ knp_pagination_render(animes) }}
+{% endblock content %}
