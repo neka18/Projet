@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Anime;
+use App\Search\Search;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,14 @@ class AnimeRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findBySearch(Search $search)
+    {
+        $qb = $this->createQueryBuilder("a")
+            ->where('a.name LIKE :keyword')
+//          ->leftJoin('a.type', 't')
+//            ->orWhere('a.type like :keyword')
+            ->setParameter('keyword', '%' . $search->getKeyword() . '%');
+
+        return $qb->getQuery()->getResult();
+    }
 }

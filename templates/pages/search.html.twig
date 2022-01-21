@@ -1,0 +1,33 @@
+{% extends 'layouts/layout.html.twig' %}
+
+
+{% block content %}
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5">
+            {% for anime in animes %}
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img src="{{ asset("uploads/"~anime.img) }}" alt="" class="card-img">
+                        <h2 class="card-title">{{ anime.name }}</h2>
+                        <h3 class="card-title">type: {{ anime.type }}</h3>
+                        <p></p><i class="far fa-star"></i>
+                        <i class="far fa-bookmark"></i>
+                        <p class="card-text">{{ anime.description }}</p>
+                    </div>
+                    <div class="card-footer"><a class="btn btn-primary btn-sm"
+                                                href="{{ url('anime', {'id': anime.id}) }}">Plus d'info ici.</a>
+                        <a class="btn btn-primary btn-sm" href="#">Ajouter à ma liste.</a>
+                        <a class="btn btn-primary btn-sm" href="#">Commenter.</a>
+
+                    </div>
+
+                </div>
+            </div>
+            {% else %}
+                <h2>Ce n'est pas dans notre liste, désolé!</h2>
+            {% endfor %}
+        </div>
+    </div>
+{#    {{ knp_pagination_render(animes) }}#}
+{% endblock content %}

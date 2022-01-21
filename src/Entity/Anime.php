@@ -44,6 +44,11 @@ class Anime
      */
     private $ep;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->libraries = new ArrayCollection();
@@ -128,6 +133,18 @@ class Anime
     public function setEp(int $ep): self
     {
         $this->ep = $ep;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

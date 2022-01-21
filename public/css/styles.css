@@ -12099,3 +12099,11 @@ textarea.form-control-lg {
 .pagination {
     justify-content: center;
 }
+
+.card-text{
+    font-size: 14px !important;
+}
+
+.footer{
+    bottom: 1000px !important;
+}

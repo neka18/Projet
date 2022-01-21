@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Repository\AnimeRepository;
+use App\Search\Search;
+use App\Search\SearchType;
 use App\Service\PhotoUploader;
 use App\Form\ContactType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -44,12 +46,11 @@ class DefaultController extends AbstractController
 
 
     /**
-     * @Route("/contact", name="anime")
+     * @Route("/contact", name="contact")
      */
     public
     function contact(Request $request, AnimeRepository $animeRepository, EntityManagerInterface $entityManager): Response
     {
-        $animes = $animeRepository->findAll();
         $contact = new Contact();
 
         $form = $this->createForm(ContactType::class, $contact);
@@ -65,6 +66,27 @@ class DefaultController extends AbstractController
         }
 
         return $this->render("pages/contact.html.twig", ['contactForm' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/search", name="search")
+     */
+    public function search(Request $request, AnimeRepository $animeRepository): Response
+    {
+        $search = new search();
+        $form = $this->createForm(SearchType::class, $search);
+        $form->handleRequest($request);
+        $result = [];
+//        $animes = $animeRepository->findAll();
+//        $animes = $paginator->paginate(
+//            $animes,
+//            $request->query->getInt('page', 1),
+//            6
+//        );
+        if ($form->isSubmitted() && $form->isValid()){
+            $result = $animeRepository->findBySearch($search);
+        }
+        return $this->render('pages/search.html.twig', ['animes' => $result, 'searchFullForm' => $form->createView() ]);
     }
 
 }
