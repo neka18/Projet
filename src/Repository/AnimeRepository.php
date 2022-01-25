@@ -48,14 +48,16 @@ class AnimeRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    //recherche une partie du keyword dans l'entity anime.name
     public function findBySearch(Search $search)
     {
         $qb = $this->createQueryBuilder("a")
             ->where('a.name LIKE :keyword')
-//          ->leftJoin('a.type', 't')
-//            ->orWhere('a.type like :keyword')
+//          ->orWhere('a.type = :keyword')
             ->setParameter('keyword', '%' . $search->getKeyword() . '%');
 
         return $qb->getQuery()->getResult();
     }
+
 }

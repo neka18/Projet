@@ -37,6 +37,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
+    private string $plainPassword;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -140,6 +142,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+
 
     public function getPseudo(): ?string
     {

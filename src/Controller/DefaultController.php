@@ -23,8 +23,9 @@ class DefaultController extends AbstractController
      */
     public function home(Request $request, PaginatorInterface $paginator, AnimeRepository $animeRepository): Response
     {
-        $anime = $animeRepository->find(2);
+        $anime = $animeRepository->find(2); //permet de choisir l'anime en tête de page
         $animes = $animeRepository->findAll();
+        //pagination
         $animes = $paginator->paginate(
             $animes,
             $request->query->getInt('page', 1),
@@ -43,14 +44,20 @@ class DefaultController extends AbstractController
         return $this->render('pages/anime.html.twig', ['anime' => $animes]);
     }
 
-
-
     /**
      * @Route("/contact", name="contact")
      */
     public
-    function contact(Request $request, AnimeRepository $animeRepository, EntityManagerInterface $entityManager): Response
+    function contact(Request $request, PaginatorInterface $paginator, AnimeRepository $animeRepository, EntityManagerInterface $entityManager): Response
     {
+        $anime = $animeRepository->find(2);
+        $animes = $animeRepository->findAll();
+        $animes = $paginator->paginate(
+            $animes,
+            $request->query->getInt('page', 1),
+            6
+        );
+
         $contact = new Contact();
 
         $form = $this->createForm(ContactType::class, $contact);
@@ -62,7 +69,7 @@ class DefaultController extends AbstractController
 
             $this->addFlash('success', 'Message envoyé avec succès !');
 
-            return $this->render("pages/home.html.twig", ['animes' => $animes]);
+            return $this->render("pages/home.html.twig", ['topanime' => $anime, 'animes' => $animes]);
         }
 
         return $this->render("pages/contact.html.twig", ['contactForm' => $form->createView()]);

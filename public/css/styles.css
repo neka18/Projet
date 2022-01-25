@@ -774,6 +774,7 @@ progress {
 
 .img-fluid {
     max-width: 100%;
+    height: 600px !important;
     height: auto;
 }
 
@@ -12106,4 +12107,10 @@ textarea.form-control-lg {
 
 .footer{
     bottom: 1000px !important;
+}
+
+.font-weight-light{
+    text-align: center !important;
+    text-decoration: underline 1px black;
+    font-style: italic;
 }
