@@ -6,6 +6,7 @@ use App\Repository\AnimeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AnimeRepository::class)
@@ -31,6 +32,11 @@ class Anime
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *     pattern="/\.(jpe?g|png)$/i",
+     *     match=true,
+     *     message="Seulement les extensions jpg, jpeg et png sont autorisées"
+     * )
      */
     private $img;
 
@@ -50,7 +56,7 @@ class Anime
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="anime", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="anime")
      */
     private $comments;
 
@@ -188,11 +194,16 @@ class Anime
     public function isCommented(User $user): bool
     {
         foreach ($this->comments as $comment) {
-            if ($comment->getAuthor() === $user) {
+            if ($comment->getUser() === $user) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

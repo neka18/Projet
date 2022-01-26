@@ -23,17 +23,18 @@ class Comment
      */
     private $content;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $author;
 
     /**
      * @ORM\ManyToOne(targetEntity=Anime::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $anime;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -52,17 +53,6 @@ class Comment
         return $this;
     }
 
-    public function getAuthor(): ?user
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?user $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
 
     public function getAnime(): ?Anime
     {
@@ -72,6 +62,18 @@ class Comment
     public function setAnime(?Anime $anime): self
     {
         $this->anime = $anime;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

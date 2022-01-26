@@ -23,11 +23,10 @@
                             <div class="card-footer"><a class="btn btn-primary btn-sm"
                                  href="{{ url('anime', {'id': library.anime.id}) }}">Plus d'info ici.</a>
                                 <a class="btn red-btn btn-sm" href="{{ url('delete', {'id': library.id}) }}">Supprimer.</a>
-                                <a class="btn btn-primary btn-sm" href="{{ url('comment', {'id': library.id}) }}">Commenter.</a>
+                                <a class="btn btn-primary btn-sm" href="{{ url('comment', {'id': library.anime.id}) }}">Commenter.</a>
                             </div>
                         </div>
                     </div>
-
 
                 {% else %}
 

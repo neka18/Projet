@@ -60,7 +60,7 @@ class DefaultController extends AbstractController
 
         $comment = new Comment();
         $comment->setAnime($animes);
-        $comment->setAuthor($user);
+        $comment->setUser($user);
 
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -68,7 +68,7 @@ class DefaultController extends AbstractController
         if (!$animes->isCommented($user)) {
             $this->addFlash('error', 'Vous avez déjà commenté ce jeu !');
 
-            return $this->render("pages/anime.html.twig", ['user' => $user, 'animes' => $animes]);
+            return $this->render("pages/anime.html.twig", ['user' => $user, 'anime' => $animes, 'id' => $id]);
         }
 
 

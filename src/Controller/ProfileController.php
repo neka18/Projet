@@ -13,7 +13,8 @@ class ProfileController extends AbstractController
      */
 
 
-    public function library(){
+    public function library(): Response
+    {
         $user = $this->getUser();
         return $this->render("pages/library.html.twig", ['user' => $user]);
     }
