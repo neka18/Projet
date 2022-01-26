@@ -12094,7 +12094,9 @@ textarea.form-control-lg {
 .card-img {
     height: 300px;
     max-width: 200px;
-    justify-content: center;
+    display: block !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
 }
 
 .pagination {
@@ -12114,3 +12116,40 @@ textarea.form-control-lg {
     text-decoration: underline 1px black;
     font-style: italic;
 }
+
+.alert{
+    text-align: center;
+}
+
+.red-btn{
+    color: #fff;
+    background-color: #a81515;
+    border-color: #a81515;
+}
+
+.red-btn:hover {
+    color: #fff;
+    background-color: #670d0d;
+    border-color: #670d0d;
+}
+
+.btn-filter{
+    color: #fff;
+    background-color: #969696;
+    border-color: #969696;
+    display: inline !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.btn-filter:hover {
+    color: #fff;
+    background-color: #3f3f3f;
+    border-color: #3f3f3f;
+}
+
+
+.center{
+    align-items: center;
+}
+

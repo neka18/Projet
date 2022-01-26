@@ -60,4 +60,14 @@ class AnimeRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+//    public function getAnimeByNameAsc()
+//    {
+//        $qb = $this->createQueryBuilder('a')
+//            ->leftJoin('a.names', 'n')
+//            ->orderBy('n.name', 'asc');
+
+//        return $qb->getQuery()->getResult();
+//    }
+
+
 }

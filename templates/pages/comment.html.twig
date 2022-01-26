@@ -1,0 +1,15 @@
+{% extends 'layouts/layout.html.twig' %}
+
+{% block content %}
+    <div class="formText">
+        <h7>Votre Commentaire:</h7>
+        <br>
+        <br>
+        <p>Ici, vous pouvez exprimer votre avis sur cet animé afin que les autres puisse se faire une idée. </p>
+    </div>
+
+    <div>
+        {{ form(commentForm) }}
+    </div>
+
+{% endblock content %}

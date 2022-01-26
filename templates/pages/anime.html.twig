@@ -9,12 +9,29 @@
                                        alt="..."/></div>
             <div class="col-lg-5">
                 <a href=""><i class="bi-bookmark"></i></a>
-                <p>Episode: ... sur {{ anime.ep }}</p>
+                {# {% if app.user %} #}
+                {# <p>Episode: <imput></imput> sur {{ anime.ep }}</p> #}
+                {# {% endif %} #}
                 <h1 class="font-weight-light">{{ anime.name }}.</h1>
+                <hr class="top-home">
                 <p> {{ anime.description }}</p>
-                <a class="btn btn-primary btn-sm" href="#">Ajouter à ma liste.</a>
-                <a class="btn btn-primary btn-sm" href="#">Commenter.</a>
+                {% if app.user %}
+                <a class="btn btn-primary btn-sm" href="{{ url('add', {'id': anime.id}) }}">Ajouter à ma liste.</a>
+                <a class="btn btn-primary btn-sm" href="{{ url('comment', {'id': anime.id}) }}">Commenter.</a>
+                {% endif %}
             </div>
         </div>
     </div>
 {% endblock content %}
+
+{#<h2>Commentaires:</h2>#}
+{#            {% for comment in comments %}#}
+{#                <div class="card h-100">#}
+{#                    <h1>{{ comment.author.pseudo }}</h1>#}
+{#                    <p>{{ comment.comment }}</p>#}
+
+
+{#                </div>#}
+{#            {% else %}#}
+{#                <h3>Pas de commentaire</h3>#}
+{#            {% endfor %}#}

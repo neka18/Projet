@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Contact;
+use App\Entity\Library;
+use App\Form\CommentType;
 use App\Repository\AnimeRepository;
+use App\Repository\LibraryRepository;
 use App\Search\Search;
 use App\Search\SearchType;
-use App\Service\PhotoUploader;
 use App\Form\ContactType;
+use Doctrine\ORM\EntityManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,6 +27,7 @@ class DefaultController extends AbstractController
      */
     public function home(Request $request, PaginatorInterface $paginator, AnimeRepository $animeRepository): Response
     {
+//        $animes = $animeRepository->getAnimeByNameAsc();
         $anime = $animeRepository->find(2); //permet de choisir l'anime en tête de page
         $animes = $animeRepository->findAll();
         //pagination
@@ -45,11 +50,89 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/comment/{id}", name="comment")
+     */
+
+    public function comment(int $id, Request $request, AnimeRepository $animeRepository, EntityManagerInterface $entityManager): Response
+    {
+        $animes = $animeRepository->find($id);
+        $user = $this->getUser();
+
+        $comment = new Comment();
+        $comment->setAnime($animes);
+        $comment->setAuthor($user);
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if (!$animes->isCommented($user)) {
+            $this->addFlash('error', 'Vous avez déjà commenté ce jeu !');
+
+            return $this->render("pages/anime.html.twig", ['user' => $user, 'animes' => $animes]);
+        }
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Commentaire mis en ligne !');
+
+            return $this->redirectToRoute("anime", ['animes' => $animes, 'id' => $id]);
+        }
+
+        return $this->render("pages/comment.html.twig", ['anime' => $animes, 'commentForm' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/add/{id}", name="add")
+     */
+
+    public function add(int $id, AnimeRepository $animeRepository, LibraryRepository $libraryRepository, EntityManagerInterface $entityManager)
+    {
+        $anime = $animeRepository->find($id);
+        $user = $this->getUser();
+        $animebis = $libraryRepository->getAnimeLibraryBy($user, $anime);
+
+        if (!isset($animebis)) {
+            $library = new Library();
+            $library->setAnime($anime);
+            $library->setUtilisateur($user);
+
+            $entityManager->persist($library);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Animé ajouté avec succès !');
+
+            return $this->redirectToRoute("library", ['user' => $user]);
+        }
+        $this->addFlash('error', 'Animé déja ajouté !');
+        return $this->redirectToRoute("library", ['user' => $user]);
+    }
+
+
+    /**
+     * @Route("/delete/{id}", name="delete")
+     */
+
+    public function delete(int $id, LibraryRepository $libraryRepository, EntityManagerInterface $entityManager)
+    {
+        $anime = $libraryRepository->find($id);
+        $user = $this->getUser();
+
+        $entityManager->remove($anime);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Animé supprimé avec succès !');
+        return $this->redirectToRoute("library", ['user' => $user]);
+    }
+
+    /**
      * @Route("/contact", name="contact")
      */
-    public
-    function contact(Request $request, PaginatorInterface $paginator, AnimeRepository $animeRepository, EntityManagerInterface $entityManager): Response
+    public function contact(Request $request, PaginatorInterface $paginator, AnimeRepository $animeRepository, EntityManagerInterface $entityManager): Response
     {
+
         $anime = $animeRepository->find(2);
         $animes = $animeRepository->findAll();
         $animes = $paginator->paginate(
@@ -69,7 +152,7 @@ class DefaultController extends AbstractController
 
             $this->addFlash('success', 'Message envoyé avec succès !');
 
-            return $this->render("pages/home.html.twig", ['topanime' => $anime, 'animes' => $animes]);
+            return $this->redirectToRoute("home", ['topanime' => $anime, 'animes' => $animes]);
         }
 
         return $this->render("pages/contact.html.twig", ['contactForm' => $form->createView()]);
@@ -84,16 +167,11 @@ class DefaultController extends AbstractController
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
         $result = [];
-//        $animes = $animeRepository->findAll();
-//        $animes = $paginator->paginate(
-//            $animes,
-//            $request->query->getInt('page', 1),
-//            6
-//        );
-        if ($form->isSubmitted() && $form->isValid()){
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $result = $animeRepository->findBySearch($search);
         }
-        return $this->render('pages/search.html.twig', ['animes' => $result, 'searchFullForm' => $form->createView() ]);
+        return $this->render('pages/search.html.twig', ['animes' => $result, 'searchFullForm' => $form->createView()]);
     }
 
 }

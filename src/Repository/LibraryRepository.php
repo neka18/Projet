@@ -19,6 +19,31 @@ class LibraryRepository extends ServiceEntityRepository
         parent::__construct($registry, Library::class);
     }
 
+    public function getAnimeLibraryBy($userId, $animeId)
+    {
+        $qb = $this->createQueryBuilder('l')
+
+            ->leftJoin('l.utilisateur', 'u')
+            ->addSelect('u')
+            ->leftJoin('l.anime', 'a')
+            ->addSelect('a')
+            ->where('u.id = :userId')
+            ->andWhere('a.id = :animeId')
+            ->setParameters(['userId' => $userId, 'animeId' => $animeId]);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+//    public function getAnimeById($id)
+//    {
+//        $qb = $this->createQueryBuilder('l')
+//
+//            ->where('l.anime = :animeId')
+//            ->setParameter('animeId', $id);
+//
+//        return $qb->getQuery()->getOneOrNullResult();
+//    }
+
     // /**
     //  * @return Library[] Returns an array of Library objects
     //  */

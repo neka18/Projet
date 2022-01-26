@@ -2,30 +2,54 @@
 
 {% block content %}
     <div class="container px-4 px-lg-5">
+
         <div class="container-library">
-            <br>
+            <hr class="top-home">
             <h2>Mes animés en favoris: </h2>
+            <hr class="top-home">
+            <div class="row gx-4 gx-lg-5">
 
-{#            {% for  library in  %}#}
+                {% for  library in  user.libraries %}
+
+                    <div class="col-md-4 mb-5">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <img src="{{ asset('uploads/'~library.anime.img) }}" alt="" class="card-img">
+                                <h2 class="card-title">{{ library.anime.name }}</h2>
+                                <h3 class="card-title">type: {{ library.anime.type }}</h3>
+                                <p></p><i class="far fa-star"></i>
+                                <i class="far fa-bookmark"></i>
+                                <p class="card-text">{{ library.anime.description }}</p>
+                            </div>
+                            <div class="card-footer"><a class="btn btn-primary btn-sm"
+                                 href="{{ url('anime', {'id': library.anime.id}) }}">Plus d'info ici.</a>
+                                <a class="btn red-btn btn-sm" href="{{ url('delete', {'id': library.id}) }}">Supprimer.</a>
+                                <a class="btn btn-primary btn-sm" href="{{ url('comment', {'id': library.id}) }}">Commenter.</a>
+                            </div>
+                        </div>
+                    </div>
 
 
+                {% endfor %}
 
-    {#        {% endfor %}#}
+                {# <img src="{{ library.anime.img }}" alt=""> #}
+                {# {{ library.anime.name }} #}
 
-
-    {#        <a href="/anime"><img class="imageLibrary" src="{{ asset("images/digital-standard.jpg") }}"#}
-    {#                              alt="kimetsu no yaiba"></a>#}
-
-    {#        <a href="/anime"><img class="imageLibrary" src="{{ asset("images/zdwfbkt301n51.jpg") }}"#}
-    {#                              alt="jujutsu kaisen"></a>#}
-    {#        <a href="/anime"><img class="imageLibrary" src="{{ asset('images/Shingekinokyojin-01-kodansha.jpg') }}"#}
-    {#                              alt="Snk"></a>#}
-
-    {#    </div>#}
-    {#    <a href="/"><p class="backToIndex">Pour trouver de nouveaux animés c'est par ici. </p></a>#}
+                {# {% endfor %} #}
 
 
+                {# <a href="/anime"><img class="imageLibrary" src="{{ asset("images/digital-standard.jpg") }}" #}
+                {# alt="kimetsu no yaiba"></a> #}
 
+                {# <a href="/anime"><img class="imageLibrary" src="{{ asset("images/zdwfbkt301n51.jpg") }}" #}
+                {# alt="jujutsu kaisen"></a> #}
+                {# <a href="/anime"><img class="imageLibrary" src="{{ asset('images/Shingekinokyojin-01-kodansha.jpg') }}" #}
+                {# alt="Snk"></a> #}
+
+                {# </div> #}
+                {# <a href="/"><p class="backToIndex">Pour trouver de nouveaux animés c'est par ici. </p></a> #}
+
+            </div>
         </div>
     </div>
 {% endblock content %}

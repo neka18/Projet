@@ -23,6 +23,15 @@
         <div class="card text-white bg-secondary my-5 py-4 text-center">
             <div><p class="text-white m-0">Les nouveautés de la semaine !</p></div>
         </div>
+
+        {% for anime in animes %}
+
+        <a class="btn center btn-filter btn-sm" href="#">{{ anime.type }}</a>
+
+        {% endfor %}
+
+        <hr class="top-home">
+
         <!-- Content Row-->
         <div class="row gx-4 gx-lg-5">
             {% for anime in animes %}
@@ -38,13 +47,14 @@
                         </div>
                         <div class="card-footer"><a class="btn btn-primary btn-sm"
                                                     href="{{ url('anime', {'id': anime.id}) }}">Plus d'info ici.</a>
-                            <a class="btn btn-primary btn-sm" href="#">Ajouter à ma liste.</a>
-                            <a class="btn btn-primary btn-sm" href="#">Commenter.</a>
+{#                            <a class="btn btn-primary btn-sm" href="{{ url('add', {'id': anime.id}) }}">Ajouter à ma liste.</a>#}
+                            {% if app.user %}
+                                <a class="btn btn-primary btn-sm" href="{{ url('comment', {'id': anime.id}) }}">Commenter.</a>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
-            {% else %}
-                <h1 class="font-weight-light">Noob</h1>
             {% endfor %}
 
         </div>

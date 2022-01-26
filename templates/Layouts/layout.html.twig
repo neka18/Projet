@@ -28,8 +28,7 @@
                         {#  <input type="search" id="site-search" name="q" placeholder="search"
                                                 aria-label="Search through site content">#}</li>
                     {# <div class="dropdown"> #}
-                    <li class="nav-item" id="buttonmenu"><a class="nav-link active" aria-current="page"
-                                                            href="/">Liste</a></li>
+                    <li class="nav-item" id="buttonmenu"><a class="nav-link {% if app.request.get('_route') == 'home' %} active {% endif %}" href="/">Accueil</a></li>
                     {# <div class="dropdown-child"> #}
                     {# <a href="#">Shonen</a> #}
                     {# <a href="#">Shojo</a> #}
@@ -37,17 +36,27 @@
                     {# <a href="#">Isekai</a> #}
                     {# </div> #}
                     {# </div> #}
-                    <li class="nav-item"><a class="nav-link" href="/library">Ma collection</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+                    {% if app.user %}
+                    <li class="nav-item"><a class="nav-link {% if app.request.get('_route') == 'library' %} active {% endif %}" href="/library">Ma collection</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link {% if app.request.get('_route') == 'contact' %} active {% endif %}" href="/contact">Contact</a></li>
                     {% if app.user %}
                     <li class="nav-item"><a class="nav-link" href="/logout">Deconnexion</a></li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="/login">Se connecter</a></li>
+                    <li class="nav-item"><a class="nav-link {% if app.request.get('_route') == 'app_login' %} active {% endif %}" href="/login">Se connecter</a></li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div style="margin-bottom: 0"
+                 class="alert {% if type == 'success' %} alert-success {% else %} alert-danger {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
     <!-- Page Content-->
     {% block content %}
 
