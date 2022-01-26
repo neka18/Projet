@@ -7,6 +7,7 @@ use App\Entity\Contact;
 use App\Entity\Library;
 use App\Form\CommentType;
 use App\Repository\AnimeRepository;
+use App\Repository\CommentRepository;
 use App\Repository\LibraryRepository;
 use App\Search\Search;
 use App\Search\SearchType;
@@ -85,6 +86,42 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/editComment/{id}", name="editComment")
+     */
+    public function editComment(int $id, Request $request, AnimeRepository $animeRepository, CommentRepository $commentRepository, EntityManagerInterface $entityManager): Response
+    {
+        $animes = $animeRepository->find($id);
+        $userId = $this->getUser()->getId();
+        $user = $this->getUser();
+
+        $comment = $commentRepository->getCommentId( $userId, $id);
+
+        if(!isset($comment)){
+            $this->addFlash('error', 'Veuillez d\'abord créer un commentaire !');
+
+            return $this->redirectToRoute("anime", ['user' => $user, 'anime' => $animes, 'id' => $id]);
+        }
+
+        $comment->setAnime($animes);
+        $comment->setUser($user);
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Commentaire mise à jour avec succès !');
+
+            return $this->redirectToRoute("anime", ['user' => $user, 'anime' => $animes, 'id' => $id]);
+        }
+
+        return $this->render("pages/editComment.html.twig", ['editCommentForm' => $form->createView()]);
+    }
+
+
+    /**
      * @Route("/add/{id}", name="add")
      */
 
@@ -117,10 +154,13 @@ class DefaultController extends AbstractController
 
     public function delete(int $id, LibraryRepository $libraryRepository, EntityManagerInterface $entityManager)
     {
-        $anime = $libraryRepository->find($id);
+        $library = $libraryRepository->find($id);
         $user = $this->getUser();
+        if(!$user->isAddByThisUser($user, $id)){
+            throw $this->createAccessDeniedException('You cannot access this page!');
+        }
 
-        $entityManager->remove($anime);
+        $entityManager->remove($library);
         $entityManager->flush();
 
         $this->addFlash('success', 'Animé supprimé avec succès !');

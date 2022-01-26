@@ -244,5 +244,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pseudo;
     }
 
+    public function isAddByThisUser(User $user, int $id): bool
+    {
+        foreach ($this->libraries as $library){
+            if($library->getUtilisateur() === $user && $library->getId() === $id){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

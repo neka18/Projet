@@ -19,6 +19,21 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    public function getCommentId($userId, $animeId)
+    {
+        $qb = $this->createQueryBuilder('c')
+
+            ->leftJoin('c.user', 'u')
+            ->addSelect('u')
+            ->leftJoin('c.anime', 'a')
+            ->addSelect('a')
+            ->where('u.id = :userId')
+            ->andWhere('a.id = :animeId')
+            ->setParameters(['userId' => $userId, 'animeId' => $animeId]);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */

@@ -18,6 +18,7 @@
                 {% if app.user %}
                     <a class="btn btn-primary btn-sm" href="{{ url('add', {'id': anime.id}) }}">Ajouter à ma liste.</a>
                     <a class="btn btn-primary btn-sm" href="{{ url('comment', {'id': anime.id}) }}">Commenter.</a>
+                    <a class="btn btn-primary btn-sm" href="{{ url('editComment', {'id': anime.id}) }}">Editer mon commentaire.</a>
                 {% endif %}
             </div>
             <hr class="top-home">

@@ -21,12 +21,13 @@ class LibraryRepository extends ServiceEntityRepository
 
     public function getAnimeLibraryBy($userId, $animeId)
     {
-        $qb = $this->createQueryBuilder('l')
 
+        $qb = $this->createQueryBuilder('l')
             ->leftJoin('l.utilisateur', 'u')
             ->addSelect('u')
             ->leftJoin('l.anime', 'a')
             ->addSelect('a')
+            ->select('l.id')
             ->where('u.id = :userId')
             ->andWhere('a.id = :animeId')
             ->setParameters(['userId' => $userId, 'animeId' => $animeId]);
