@@ -16,22 +16,29 @@
                 <hr class="top-home">
                 <p> {{ anime.description }}</p>
                 {% if app.user %}
-                <a class="btn btn-primary btn-sm" href="{{ url('add', {'id': anime.id}) }}">Ajouter à ma liste.</a>
-                <a class="btn btn-primary btn-sm" href="{{ url('comment', {'id': anime.id}) }}">Commenter.</a>
+                    <a class="btn btn-primary btn-sm" href="{{ url('add', {'id': anime.id}) }}">Ajouter à ma liste.</a>
+                    <a class="btn btn-primary btn-sm" href="{{ url('comment', {'id': anime.id}) }}">Commenter.</a>
                 {% endif %}
             </div>
+            <hr class="top-home">
+            <h2>Commentaires des utilisateurs:</h2>
+            <hr class="top-home">
+
+            {% for comment in anime.comments %}
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body2">
+                            <h3 class="alert">Auteur: {{ comment.author.pseudo }}</h3>
+                            <hr>
+                            <p class="card-text">{{ comment.content }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <h3>Pas de commentaire</h3>
+            {% endfor %}
         </div>
     </div>
 {% endblock content %}
 
-{#<h2>Commentaires:</h2>#}
-{#            {% for comment in comments %}#}
-{#                <div class="card h-100">#}
-{#                    <h1>{{ comment.author.pseudo }}</h1>#}
-{#                    <p>{{ comment.comment }}</p>#}
-
-
-{#                </div>#}
-{#            {% else %}#}
-{#                <h3>Pas de commentaire</h3>#}
-{#            {% endfor %}#}

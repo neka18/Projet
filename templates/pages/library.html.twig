@@ -8,7 +8,6 @@
             <h2>Mes animés en favoris: </h2>
             <hr class="top-home">
             <div class="row gx-4 gx-lg-5">
-
                 {% for  library in  user.libraries %}
 
                     <div class="col-md-4 mb-5">
@@ -30,24 +29,12 @@
                     </div>
 
 
+                {% else %}
+
+                    <h3>Vous n'avez pas d'animé dans votre collection, vous pouvez aller en ajouter sur la page Acceuil</h3>
+                    <hr class="top-home">
                 {% endfor %}
 
-                {# <img src="{{ library.anime.img }}" alt=""> #}
-                {# {{ library.anime.name }} #}
-
-                {# {% endfor %} #}
-
-
-                {# <a href="/anime"><img class="imageLibrary" src="{{ asset("images/digital-standard.jpg") }}" #}
-                {# alt="kimetsu no yaiba"></a> #}
-
-                {# <a href="/anime"><img class="imageLibrary" src="{{ asset("images/zdwfbkt301n51.jpg") }}" #}
-                {# alt="jujutsu kaisen"></a> #}
-                {# <a href="/anime"><img class="imageLibrary" src="{{ asset('images/Shingekinokyojin-01-kodansha.jpg') }}" #}
-                {# alt="Snk"></a> #}
-
-                {# </div> #}
-                {# <a href="/"><p class="backToIndex">Pour trouver de nouveaux animés c'est par ici. </p></a> #}
 
             </div>
         </div>
