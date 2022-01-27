@@ -20,7 +20,10 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+        // redirect to some CRUD controller
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+
+        return $this->redirect($adminUrlGenerator->setController(UserCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -31,7 +34,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable //sous menu de la dashboard
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToUrl('Back to home', 'fa fa-home', '/pwd/');
         yield MenuItem::linkToCrud('Anime', 'fas fa-list', Anime::class);
         yield MenuItem::linkToCrud('Comment', 'fas fa-list', Comment::class);
         yield MenuItem::linkToCrud('Contact', 'fas fa-list', Contact::class);

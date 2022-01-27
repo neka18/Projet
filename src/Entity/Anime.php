@@ -33,7 +33,7 @@ class Anime
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex(
-     *     pattern="/\.(jpe?g|png)$/i",  //regex pour l'extension de l'image dans l'upload
+     *     pattern="/\.(jpe?g|png)$/i",
      *     match=true,
      *     message="Seulement les extensions jpg, jpeg et png sont autorisées"
      * )
@@ -41,14 +41,9 @@ class Anime
     private $img;
 
     /**
-     * @ORM\OneToMany(targetEntity=Library::class, mappedBy="anime")
+     * @ORM\OneToMany(targetEntity=Library::class, mappedBy="anime", cascade="{remove}")
      */
     private $libraries;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $ep;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -56,7 +51,7 @@ class Anime
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="anime")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="anime", cascade="{remove})
      */
     private $comments;
 
@@ -133,18 +128,6 @@ class Anime
                 $library->setAnime(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getEp(): ?int
-    {
-        return $this->ep;
-    }
-
-    public function setEp(int $ep): self
-    {
-        $this->ep = $ep;
 
         return $this;
     }
