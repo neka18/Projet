@@ -29,7 +29,7 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('Anime List');
     }
 
-    public function configureMenuItems(): iterable
+    public function configureMenuItems(): iterable //sous menu de la dashboard
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Anime', 'fas fa-list', Anime::class);

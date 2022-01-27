@@ -38,7 +38,7 @@ class SecurityController extends AbstractController
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = new User();
-        $form = $this->createForm(RegisterType::class, $user); //creation du form
+        $form = $this->createForm(RegisterType::class, $user); //creation du formulaire de register
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) { //verification de soumission
@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="app_logout")
      */
-    public function logout(): void
+    public function logout(): void //deconnection
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }

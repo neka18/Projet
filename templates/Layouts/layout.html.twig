@@ -25,24 +25,19 @@
                         {{ form_widget(searchForm.keyword) }}
                         {{ form_widget(searchForm.submit) }}
                         {{ form_end(searchForm) }}
-                        {#  <input type="search" id="site-search" name="q" placeholder="search"
-                                                aria-label="Search through site content">#}</li>
-                    {# <div class="dropdown"> #}
+
                     <li class="nav-item" id="buttonmenu"><a class="nav-link {% if app.request.get('_route') == 'home' %} active {% endif %}" href="{{ url('home') }}">Accueil</a></li>
-                    {# <div class="dropdown-child"> #}
-                    {# <a href="#">Shonen</a> #}
-                    {# <a href="#">Shojo</a> #}
-                    {# <a href="#">Seinen</a> #}
-                    {# <a href="#">Isekai</a> #}
-                    {# </div> #}
-                    {# </div> #}
+
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item"><a class="nav-link {% if app.request.get('_route') == 'library' %} active {% endif %}" href="{{ url('admin') }}">Admin</a></li>
                     {% endif %}
+
                     {% if app.user %}
                     <li class="nav-item"><a class="nav-link {% if app.request.get('_route') == 'library' %} active {% endif %}" href="{{ url('library') }}">Ma collection</a></li>
                     {% endif %}
+
                     <li class="nav-item"><a class="nav-link {% if app.request.get('_route') == 'contact' %} active {% endif %}" href="{{ url('contact') }}">Contact</a></li>
+
                     {% if app.user %}
                     <li class="nav-item"><a class="nav-link" href="{{ url('app_logout') }}">Deconnexion</a></li>
                     {% else %}

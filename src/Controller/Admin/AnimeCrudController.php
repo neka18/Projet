@@ -19,7 +19,7 @@ class AnimeCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+        return [    //champ apparaissant dans la dashboard
             TextField::new('name'),
             ImageField::new('img')
                 ->setBasePath('uploads/')

@@ -28,7 +28,6 @@ class DefaultController extends AbstractController
      */
     public function home(Request $request, PaginatorInterface $paginator, AnimeRepository $animeRepository): Response
     {
-//        $animes = $animeRepository->getAnimeByNameAsc();
         $anime = $animeRepository->find(2); //permet de choisir l'anime en tête de page
         $animes = $animeRepository->findAll();
         //pagination
@@ -37,7 +36,7 @@ class DefaultController extends AbstractController
             $request->query->getInt('page', 1),
             6
         );
-        return $this->render('pages/home.html.twig', ['topanime' => $anime, 'animes' => $animes]);
+        return $this->render('pages/home.html.twig', ['topanime' => $anime, 'animes' => $animes]); //redirection vers page home
     }
 
     /**
@@ -46,7 +45,7 @@ class DefaultController extends AbstractController
     public function anime(int $id, AnimeRepository $animeRepository): Response
     {
 
-        $animes = $animeRepository->find($id);
+        $animes = $animeRepository->find($id); //recherche d'un anime par l'id
         return $this->render('pages/anime.html.twig', ['anime' => $animes]);
     }
 
@@ -59,27 +58,27 @@ class DefaultController extends AbstractController
         $animes = $animeRepository->find($id);
         $user = $this->getUser();
 
-        $comment = new Comment();
+        $comment = new Comment(); //creation formulaire commentaire
         $comment->setAnime($animes);
         $comment->setUser($user);
 
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
-        if (!$animes->isCommented($user)) {
+        if (!$animes->isCommented($user)) { //verification de si un commentaire à déjà été créé
             $this->addFlash('error', 'Vous avez déjà commenté ce jeu !');
 
             return $this->render("pages/anime.html.twig", ['user' => $user, 'anime' => $animes, 'id' => $id]);
         }
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { //validation du formulaire
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Commentaire mis en ligne !');
+            $this->addFlash('success', 'Commentaire mis en ligne !'); //message pour dire que le commentaire à été validé
 
-            return $this->redirectToRoute("anime", ['animes' => $animes, 'id' => $id]);
+            return $this->redirectToRoute("anime", ['animes' => $animes, 'id' => $id]); //redirection vers la page pour voir le commentaire
         }
 
         return $this->render("pages/comment.html.twig", ['anime' => $animes, 'commentForm' => $form->createView()]);
@@ -94,10 +93,10 @@ class DefaultController extends AbstractController
         $userId = $this->getUser()->getId();
         $user = $this->getUser();
 
-        $comment = $commentRepository->getCommentId( $userId, $id);
+        $comment = $commentRepository->getCommentId( $userId, $id); //recherche de l'id du commentaire via un querybuilder
 
-        if(!isset($comment)){
-            $this->addFlash('error', 'Veuillez d\'abord créer un commentaire !');
+        if(!isset($comment)){ //verification qu'il existe un commentaire à modifier
+            $this->addFlash('error', 'Veuillez d\'abord créer un commentaire !'); //erreur si il n'y a pas encore de commentaire
 
             return $this->redirectToRoute("anime", ['user' => $user, 'anime' => $animes, 'id' => $id]);
         }
@@ -105,14 +104,14 @@ class DefaultController extends AbstractController
         $comment->setAnime($animes);
         $comment->setUser($user);
 
-        $form = $this->createForm(CommentType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment); //créer le formulaire pour modifier le commentaire
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { //validation du commentaire
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Commentaire mise à jour avec succès !');
+            $this->addFlash('success', 'Commentaire mise à jour avec succès !'); //message de mise à jour du commentaire
 
             return $this->redirectToRoute("anime", ['user' => $user, 'anime' => $animes, 'id' => $id]);
         }
@@ -132,7 +131,7 @@ class DefaultController extends AbstractController
         $animebis = $libraryRepository->getAnimeLibraryBy($user, $anime);
 
         if (!isset($animebis)) {
-            $library = new Library();
+            $library = new Library(); //ajout d'un nouvel animé à la collection via un formulaire
             $library->setAnime($anime);
             $library->setUtilisateur($user);
 
@@ -154,9 +153,9 @@ class DefaultController extends AbstractController
 
     public function delete(int $id, LibraryRepository $libraryRepository, EntityManagerInterface $entityManager)
     {
-        $library = $libraryRepository->find($id);
+        $library = $libraryRepository->find($id); //fonction pour supprimer un anime de la collection
         $user = $this->getUser();
-        if(!$user->isAddByThisUser($user, $id)){
+        if(!$user->isAddByThisUser($user, $id)){ // sécurité pour refuser l'accès à un autre utilisateur qui celui de la collection
             throw $this->createAccessDeniedException('You cannot access this page!');
         }
 
@@ -181,12 +180,12 @@ class DefaultController extends AbstractController
             6
         );
 
-        $contact = new Contact();
+        $contact = new Contact(); //creation formulaire de contact
 
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { //validation du formulaire de contact
             $entityManager->persist($contact);
             $entityManager->flush();
 
@@ -203,7 +202,7 @@ class DefaultController extends AbstractController
      */
     public function search(Request $request, AnimeRepository $animeRepository): Response
     {
-        $search = new search();
+        $search = new search(); //formulaire de recherche
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
         $result = [];

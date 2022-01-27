@@ -33,7 +33,7 @@ class Anime
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex(
-     *     pattern="/\.(jpe?g|png)$/i",
+     *     pattern="/\.(jpe?g|png)$/i",  //regex pour l'extension de l'image dans l'upload
      *     match=true,
      *     message="Seulement les extensions jpg, jpeg et png sont autorisées"
      * )
